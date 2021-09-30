@@ -1,6 +1,7 @@
 import express from "express";
 import createHash from 'hash-generator'
 import Identicon from "identicon.js";
+import { hrtime } from 'process'
 
 function hashAndAvatarGenerator(hashLength=15, number=1) {
     const hash=createHash(hashLength)
@@ -12,10 +13,12 @@ const app = express();
 
 app.get(
   "/post", (req, res) => {
-      return res.json(hashAndAvatarGenerator())
+      const start = hrtime();
+
+      return res.json({...hashAndAvatarGenerator(), time: hrtime(start)})
   }
 );
 
-app.listen(8080, () => {
-    console.log('8080 port listening')
+app.listen(8090, () => {
+    console.log('8090 port listening')
 });
